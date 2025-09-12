@@ -1,0 +1,122 @@
+\documentclass{article}
+
+\input{../../packages.tex}
+
+\graphicspath{ {../Images/} }
+
+\begin{document}
+    \begin{titlepage}
+        \begin{center}
+
+        Міністерство освіти і науки України
+        
+        НТУУ «Київський політехнічний інститут»
+        
+        Фізико-технічний інститут
+        \vspace{3.3cm}
+        
+        {\textbf{Системи та засоби інтерактивної аналітики}\\Комп’ютерний практикум No1\\Створення БД в середовищі MySQL\\Варіант No10}
+
+        \vspace{10cm}
+
+        \begin{flushright}
+            \textbf{Виконав:}\\Студент 4-го курсу\\групи ФІ-21\\Климентьєв Максим\\
+            \textbf{Перевірив:}\\\text{\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_}
+        \end{flushright}
+
+        \end{center}
+    \end{titlepage}
+    \newpage
+
+    \pagenumbering{gobble}
+    \tableofcontents
+    \cleardoublepage
+    \pagenumbering{arabic}
+    \setcounter{page}{3}
+
+    \newpage
+    \section{Мета роботи}
+        Навчитися створювати базі даних у середовищі MySQL.
+
+    \newpage
+    \section{Завдання}
+    \begin{enumerate}
+        \item Створити базу даних, назву вибрати самостійно.
+
+        \item Створити 4 таблиці, назви вибрати самостійно. Варіанти у Табл 1.1 \begin{itemize}
+            \item Задати для всіх таблиць типи полів.
+            \item Структуру таблиці вибрати керуючись логікою завдання, навести її у вигляді діаграми.
+            \item Наповнити довільними значеннями, схожими на правду. Кожна таблиця 3..5 записів.
+        \end{itemize}
+
+        \item Створити звіт. Приєднати до класу. \begin{itemize}
+            \item У звіті навести все необхідне для повторення і перевірки ваших дій (SQL запити для створення БД і таблиць, структуру БД, і т.д). Навести знімки екрана, які підтверджують виконані дії.
+            \item У протоколі SQL запити наводити у текстовому вигляді щоб їх можна було редагувати і модифікувати під час захисту.
+            \item Зробити висновки по роботі і занести їх у звіт.
+        \end{itemize}
+
+        \item Підготувати відповіді на контрольні питання (для офлайн захисту навести їх у протоколі, розкрити сутність, навести приклади).
+
+        \item Захистити роботу.
+
+    \end{enumerate}
+
+    \begin{table}[!h]
+        \centering
+        \begin{tabular}{| c | m{32em} |} 
+            \hline
+            № варіанта & Завдання \\ [0.5ex] 
+            \hline
+            10 & Створити базу даних на тему "Магазин іграшок". Створити такі таблиці. "Назва іграшки", "Постачальники", "Тип іграшки", "Вартість". Побудувати всі необхідні зв'язки.\\
+            \hline
+        \end{tabular}
+    \end{table}
+
+    \newpage
+    \section{Код реалізації}
+
+    \begin{figure}[!h]
+        \includegraphics[width=0.8\linewidth]{Scheme.png}
+    \end{figure}
+
+    \newpage
+    \section{Висновки}
+
+    \newpage
+    \section{Контрольні питання}
+
+    \begin{enumerate}
+        \item Що таке бази даних? \eqref{fig:database}
+        \item Чим характерні реляційні БД? \eqref{fig:database_rel}
+        \item Що таке поле? \eqref{fig:field}
+        \item Що таке запис? \eqref{fig:record}
+        \item Які обмеження на параметрі сучасних реляційних БД (розмір, кількість записів, …)? \eqref{fig:database_limits}
+        \item Базові команди SQL? \eqref{fig:database_commands}
+    \end{enumerate}
+
+    \begin{enumerate}
+        \item \begin{figure}[h!]\label{fig:database}
+            
+        \end{figure}
+
+        \item \begin{figure}[h!]\label{fig:database_rel}
+            
+        \end{figure}
+
+        \item \begin{figure}[h!]\label{fig:field}
+            
+        \end{figure}
+
+        \item \begin{figure}[h!]\label{fig:record}
+            
+        \end{figure}
+
+        \item \begin{figure}[h!]\label{fig:database_limits}
+            
+        \end{figure}
+
+        \item \begin{figure}[h!]\label{fig:database_commands}
+            
+        \end{figure}
+    \end{enumerate}
+\end{document}
