@@ -2,5 +2,4 @@
 \contentsline {section}{\numberline {1}Мета роботи}{3}{section.1}%
 \contentsline {section}{\numberline {2}Завдання}{4}{section.2}%
 \contentsline {section}{\numberline {3}Код реалізації}{5}{section.3}%
-\contentsline {section}{\numberline {4}Висновки}{6}{section.4}%
-\contentsline {section}{\numberline {5}Контрольні питання}{7}{section.5}%
+\contentsline {section}{\numberline {4}Висновки}{10}{section.4}%

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.7.27)  12 SEP 2025 19:58
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.7.27)  17 SEP 2025 03:09
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1228,41 +1228,92 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 
 [4{c:/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
-<../Images/Scheme.png, id=59, 459.21562pt x 273.27094pt>
-File: ../Images/Scheme.png Graphic file (type png)
-<use ../Images/Scheme.png>
-Package pdftex.def Info: ../Images/Scheme.png  used on input line 79.
-(pdftex.def)             Requested size: 344.005pt x 204.71918pt.
+<../Images/Scheme_v2.png, id=54, 423.83344pt x 357.58594pt>
+File: ../Images/Scheme_v2.png Graphic file (type png)
+<use ../Images/Scheme_v2.png>
+Package pdftex.def Info: ../Images/Scheme_v2.png  used on input line 83.
+(pdftex.def)             Requested size: 344.005pt x 290.24866pt.
+ (c:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2024/09/23 1.10c listings language file
+)
+LaTeX Font Info:    Trying to load font information for T2A+cmtt on input line 86.
+ (c:/texlive/2025/texmf-dist/tex/latex/cyrillic/t2acmtt.fd
+File: t2acmtt.fd 2001/08/11 v1.0a Computer Modern Cyrillic font definitions
+)
+
+[5 <../Images/Scheme_v2.png>]
+<../Images/Create.png, id=85, 1251.17438pt x 370.38374pt>
+File: ../Images/Create.png Graphic file (type png)
+<use ../Images/Create.png>
+Package pdftex.def Info: ../Images/Create.png  used on input line 120.
+(pdftex.def)             Requested size: 430.00462pt x 127.29083pt.
 
 
-[5 <../Images/Scheme.png>]
+[6 <../Images/Create.png>]
+<../Images/Insert.png, id=132, 1266.23062pt x 334.24875pt>
+File: ../Images/Insert.png Graphic file (type png)
+<use ../Images/Insert.png>
+Package pdftex.def Info: ../Images/Insert.png  used on input line 162.
+(pdftex.def)             Requested size: 430.00462pt x 113.50536pt.
+<../Images/InsertP.png, id=133, 797.22844pt x 103.88812pt>
+File: ../Images/InsertP.png Graphic file (type png)
+<use ../Images/InsertP.png>
+Package pdftex.def Info: ../Images/InsertP.png  used on input line 194.
+(pdftex.def)             Requested size: 430.00462pt x 56.03375pt.
 
-[6]
 
-[7] (./Lab1.aux)
+[7 <../Images/Insert.png> <../Images/InsertP.png>]
+<../Images/SelectPrice.png, id=174, 269.50688pt x 130.98938pt>
+File: ../Images/SelectPrice.png Graphic file (type png)
+<use ../Images/SelectPrice.png>
+Package pdftex.def Info: ../Images/SelectPrice.png  used on input line 202.
+(pdftex.def)             Requested size: 430.00462pt x 208.99963pt.
+<../Images/SelectSuppliers.png, id=175, 399.74344pt x 143.78719pt>
+File: ../Images/SelectSuppliers.png Graphic file (type png)
+<use ../Images/SelectSuppliers.png>
+Package pdftex.def Info: ../Images/SelectSuppliers.png  used on input line 210.
+(pdftex.def)             Requested size: 430.00462pt x 154.6801pt.
+
+
+[8 <../Images/SelectPrice.png> <../Images/SelectSuppliers.png>]
+<../Images/SelectName.png, id=188, 317.68687pt x 130.23656pt>
+File: ../Images/SelectName.png Graphic file (type png)
+<use ../Images/SelectName.png>
+Package pdftex.def Info: ../Images/SelectName.png  used on input line 220.
+(pdftex.def)             Requested size: 430.00462pt x 176.29665pt.
+<../Images/SelectType.png, id=189, 360.59718pt x 132.495pt>
+File: ../Images/SelectType.png Graphic file (type png)
+<use ../Images/SelectType.png>
+Package pdftex.def Info: ../Images/SelectType.png  used on input line 228.
+(pdftex.def)             Requested size: 430.00462pt x 157.9985pt.
+
+
+[9 <../Images/SelectName.png> <../Images/SelectType.png>]
+
+[10] (./Lab1.aux)
  ***********
 LaTeX2e <2025-06-01> patch level 1
 L3 programming layer <2025-07-19>
  ***********
 Package rerunfilecheck Info: File `Lab1.out' has not changed.
-(rerunfilecheck)             Checksum: E8E49C3AA0F192FFAA739768ADC33D11;687.
+(rerunfilecheck)             Checksum: 224BC0D04921D50C0F60F7CDB77FBB3C;500.
 Package logreq Info: Writing requests to 'Lab1.run.xml'.
 \openout1 = `Lab1.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 34798 strings out of 467816
- 640689 string characters out of 5436431
- 1542112 words of memory out of 5000000
- 62889 multiletter control sequences out of 15000+600000
- 632097 words of font info for 53 fonts, out of 8000000 for 9000
+ 35497 strings out of 467816
+ 649724 string characters out of 5436431
+ 1817642 words of memory out of 5000000
+ 63481 multiletter control sequences out of 15000+600000
+ 633519 words of font info for 56 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 89i,10n,90p,1220b,1787s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on Lab1.pdf (7 pages, 86465 bytes).
+ 89i,10n,90p,1220b,2345s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt0800.pfb>
+Output written on Lab1.pdf (10 pages, 241233 bytes).
 PDF statistics:
- 122 PDF objects out of 1000 (max. 8388607)
- 102 compressed objects within 2 object streams
- 31 named destinations out of 1000 (max. 500000)
- 58 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 259 PDF objects out of 1000 (max. 8388607)
+ 219 compressed objects within 3 object streams
+ 129 named destinations out of 1000 (max. 500000)
+ 85 words of extra memory for PDF output out of 10000 (max. 10000000)
 
