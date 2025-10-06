@@ -1,0 +1,12 @@
+*
+
+!.gitignore
+!*.tex
+!*.png
+!*.jpg
+!*.tblr
+!*.tikz
+
+!*.pdf
+
+!*/
