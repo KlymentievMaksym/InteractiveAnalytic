@@ -85,47 +85,79 @@
     \section{Код реалізації}
 
     \begin{lstlisting}[language=sql]
+SELECT * FROM tbl_plant; 
     \end{lstlisting}
 
-    % \begin{figure}[!h]
-    %     \includegraphics[width=1\linewidth]{create.png}
-    % \end{figure}
-
-    % \begin{figure}[!h]
-    %     \includegraphics[width=1\linewidth]{relation.png}
-    % \end{figure}
+    \begin{figure}[!h]
+        \includegraphics[width=1\linewidth]{select1.png}
+    \end{figure}
 
     \newpage
     \begin{lstlisting}[language=sql]
+ALTER TABLE tbl_plant
+  ADD COLUMN RegDate DATE;
+
+INSERT INTO tbl_plant
+            (name,
+             RegDate)
+VALUES      ('Монстера Деліціоза',
+             '2025-10-01');
+
+UPDATE tbl_plant
+SET    name = 'Фікус Бенджамина'
+WHERE  name = 'Фікус Каріка';
+
+SELECT *
+FROM   tbl_plant; 
     \end{lstlisting}
 
-    % \begin{figure}[!h]
-    %     \includegraphics[width=1\linewidth]{insert.png}
-    % \end{figure}
+    \begin{figure}[!h]
+        \includegraphics[width=0.8\linewidth]{select2.png}
+    \end{figure}
 
     \newpage
     \begin{lstlisting}[language=sql]
+UPDATE tbl_plant
+SET    RegDate = Date_add('2025-09-01', INTERVAL Floor(Rand() * 40) day)
+WHERE  RegDate IS NULL;
+
+SELECT *
+FROM   tbl_plant
+WHERE  RegDate > '2025-09-20'; 
     \end{lstlisting}
 
-    % \begin{figure}[!h]
-    %     \includegraphics[width=1\linewidth]{select.png}
-    % \end{figure}
+    \begin{figure}[!h]
+        \includegraphics[width=1\linewidth]{select3.png}
+    \end{figure}
 
     \newpage
     \section{Висновки}
-        Створено структуру бази даних "Магазин рослин", нормалізовану до 3НФ. Виділено основні сутності, встановлено зв’язки між ними та усунуто надлишковість даних.
+        У ході лабораторної роботи було створено та виконано прості SQL-запити для роботи з базою даних "Магазин рослин". Закріплено навички додавання, зміни, вибірки й оновлення даних за допомогою основних команд SQL.
 
     \newpage
     \section{Контрольні питання}
 
     \begin{enumerate}
-        \item \textbf{Що таке SQL запит?}
-        \item \textbf{Яким запитом можна змінити структуру створеної раніше таблиці?}
-        \item \textbf{Яким запитом додають нові записи у таблицю?}
-        \item \textbf{Яким запитом видаляють записи з таблиці?}
-        \item \textbf{Яким запитом оновлюють значення у таблиці?}
-        \item \textbf{Яким запитом вибирають значення з таблиці?}
-        \item \textbf{Яким вибрати тільки ті записи, у яких поле price має значення менше числа 43?}
+        \item \textbf{Що таке SQL запит?}\\
+            SQL запит --- це вираз, написаний мовою SQL, що дає змогу виконувати операції з даними в базі даних, такі як вибірка, вставка, оновлення та видалення даних.
+        \item \textbf{Яким запитом можна змінити структуру створеної раніше таблиці?}\\
+            \texttt{ALTER TABLE}.\\
+            Приклад: \texttt{ALTER TABLE tbl\_plant ADD COLUMN RegDate DATE;}
+        \item \textbf{Яким запитом додають нові записи у таблицю?}\\
+            \texttt{INSERT INTO}.\\
+            Приклад: \texttt{INSERT INTO tbl\_plant (name, RegDate) VALUES ('Монстера Деліціоза', '2025-10-01');}
+        \item \textbf{Яким запитом видаляють записи з таблиці?}\\
+            \texttt{DELETE}.\\
+            Приклад: \texttt{DELETE FROM tbl\_plant WHERE id = 3;}
+        \item \textbf{Яким запитом оновлюють значення у таблиці?}\\
+            \texttt{UPDATE}.\\
+            Приклад: \texttt{UPDATE tbl\_plant SET name = 'Фікус Бенджамина' WHERE name = 'Фікус Каріка';}
+        \item \textbf{Яким запитом вибирають значення з таблиці?}\\
+            \texttt{SELECT}.\\
+            Приклад: \texttt{SELECT * FROM tbl\_plant;}
+        \item \textbf{Яким вибрати тільки ті записи, у яких поле price має значення менше числа 43?}\\
+            \texttt{WHERE}.\\
+            Приклад: \texttt{SELECT * FROM products WHERE price < 43;}
     \end{enumerate}
 
 
