@@ -3,7 +3,6 @@
 \input{../../packages.tex}
 
 \graphicspath{ {../Images/} }
-
 \begin{document}
     \begin{titlepage}
         \begin{center}
@@ -15,9 +14,9 @@
         Фізико-технічний інститут
         \vspace{3.3cm}
         
-        {\textbf{Системи та засоби інтерактивної аналітики}\\Лабораторна робота No1\\Створення БД в середовищі MySQL\\Варіант No10}
+        {\textbf{Системи та засоби інтерактивної аналітики}\\Лабораторна робота No2\\Нормальні форми\\Варіант No6}
 
-        \vspace{10cm}
+        \vspace{8.5cm}
 
         \begin{flushright}
             \textbf{Виконав:}\\Студент 4-го курсу\\групи ФІ-21\\Климентьєв Максим\\
@@ -36,21 +35,23 @@
 
     \newpage
     \section{Мета роботи}
-        Навчитися створювати бази даних у середовищі MySQL.
+        Ознайомитися з процесом нормалізації баз даних і привести базу даних до третьої нормальної форми.
 
     \newpage
     \section{Завдання}
     \begin{enumerate}
         \item Створити базу даних, назву вибрати самостійно.
 
-        \item Створити 4 таблиці, назви вибрати самостійно. Варіанти у Табл 1.1 \begin{itemize}
+        \item Варіанти у Табл 2.1 \begin{itemize}
             \item Задати для всіх таблиць типи полів.
-            \item Структуру таблиці вибрати керуючись логікою завдання, навести її у вигляді діаграми.
-            \item Наповнити довільними значеннями, схожими на правду. Кожна таблиця 3..5 записів.
+            \item Структуру таблиць вибрати керуючись логікою і правилами реляційних БД у 3й номальній формі .
+            \item Заповнити довільними значеннями, схожими на правду. Кожна таблиця 3..5 записів.
+            \item Варіанти за нашим списком студентів, 11 варіант = 1. 12 = 2 далі, аналогічно.
+            \item Крапка з комою (;) розділяє поля, кома (,) розділяє декілька значень у одному полі.
         \end{itemize}
 
         \item Створити звіт. Приєднати до класу. \begin{itemize}
-            \item У звіті навести все необхідне для повторення і перевірки ваших дій (SQL запити для створення БД і таблиць, структуру БД, і т.д). Навести знімки екрана, які підтверджують виконані дії.
+            \item У звіті навести все необхідне для повторення і перевірки ваших дій (діаграму БД, SQL запити для створення БД і таблиць, структуру БД, і т.д). Навести знімки екрана, які підтверджують виконані дії.
             \item У протоколі SQL запити наводити у текстовому вигляді щоб їх можна було редагувати і модифікувати під час захисту.
             \item Зробити висновки по роботі і занести їх у звіт.
         \end{itemize}
@@ -67,7 +68,14 @@
             \hline
             № варіанта & Завдання \\ [0.5ex] 
             \hline
-            10 & Створити базу даних на тему "Магазин іграшок". Створити такі таблиці. "Назва іграшки", "Постачальники", "Тип іграшки", "Вартість". Побудувати всі необхідні зв'язки.\\
+            6 & 
+                \underline{Магазин рослин, облік} \newline
+                \textbf{№; Назва; Склад; Постачальник; Особливості; Відповідальні} \newline
+                1; Фікус Каріка; №1; UGT, AVDtrade; Садові, Закритого грунту; Луцик М. В., Ступак Я. К. \newline
+                2; Аденіум огрядний; №2; AVDtrade; Кімнатні;Падик В. О.  \newline
+                3; Аглаонема; №1, №3; КвітиУкраїни; Кімнатні; Ступак Я. К. \newline
+                … \newline
+                341; Азалія; №1; Волошка; Садові; Луцик М. В.\\
             \hline
         \end{tabular}
     \end{table}
@@ -75,198 +83,335 @@
     \newpage
     \section{Код реалізації}
 
-    % \begin{figure}[!h]
-    %     \includegraphics[width=0.8\linewidth]{Scheme.png}
-    % \end{figure}
-
-    \begin{figure}[!h]
-        \includegraphics[width=0.8\linewidth]{Scheme_v2.png}
-    \end{figure}
-
-    \begin{lstlisting}[language=SQL]
-CREATE TABLE tbl_toy_name
+    \begin{lstlisting}[language=sql]
+CREATE TABLE tbl_plant
   (
      id   INT PRIMARY KEY auto_increment,
-     name VARCHAR(256) NOT NULL
+     name VARCHAR(100) NOT NULL
   );
 
-CREATE TABLE tbl_suppliers
+CREATE TABLE tbl_feature
   (
-     id       INT PRIMARY KEY auto_increment,
-     name     VARCHAR(256) NOT NULL,
-     contacts TEXT
+     id      INT PRIMARY KEY auto_increment,
+     feature VARCHAR(100) NOT NULL
   );
 
-CREATE TABLE tbl_toy_type
+CREATE TABLE tbl_plant_feature
   (
-     id       INT PRIMARY KEY auto_increment,
-     color    VARCHAR(256) NOT NULL,
-     material VARCHAR(256) NOT NULL
+     plant_id   INT NOT NULL,
+     feature_id INT NOT NULL,
+     FOREIGN KEY (plant_id) REFERENCES tbl_plant(id),
+     FOREIGN KEY (feature_id) REFERENCES tbl_feature(id),
+     UNIQUE (plant_id, feature_id)
   );
 
-CREATE TABLE tbl_price
+CREATE TABLE tbl_storage
   (
-     toy_name_id INT NOT NULL,
-     toy_type_id INT NOT NULL,
-     supplier_id INT NOT NULL,
-     price       FLOAT,
-     FOREIGN KEY (toy_name_id) REFERENCES tbl_toy_name(id),
-     FOREIGN KEY (toy_type_id) REFERENCES tbl_toy_type(id),
-     FOREIGN KEY (supplier_id) REFERENCES tbl_suppliers(id)
+     id   INT PRIMARY KEY auto_increment,
+     name VARCHAR(100) NOT NULL
   );
+
+CREATE TABLE tbl_responsible
+  (
+     id   INT PRIMARY KEY auto_increment,
+     name VARCHAR(100) NOT NULL
+  );
+
+CREATE TABLE tbl_storage_responsible
+  (
+     id             INT PRIMARY KEY auto_increment,
+     storage_id     INT NOT NULL,
+     responsible_id INT NOT NULL,
+     FOREIGN KEY (storage_id) REFERENCES tbl_storage(id),
+     FOREIGN KEY (responsible_id) REFERENCES tbl_responsible(id),
+     UNIQUE (storage_id, responsible_id)
+  );
+
+CREATE TABLE tbl_supplier
+  (
+     id   INT PRIMARY KEY auto_increment,
+     name VARCHAR(100) NOT NULL
+  );
+
+CREATE TABLE tbl_accounting
+  (
+     plant_id               INT NOT NULL,
+     storage_responsible_id INT NOT NULL,
+     supplier_id            INT NOT NULL,
+     FOREIGN KEY (plant_id) REFERENCES tbl_plant(id),
+     FOREIGN KEY (supplier_id) REFERENCES tbl_supplier(id),
+     FOREIGN KEY (storage_responsible_id) REFERENCES tbl_storage_responsible(id),
+     UNIQUE (plant_id, storage_responsible_id, supplier_id)
+  ); 
     \end{lstlisting}
 
     \begin{figure}[!h]
-        \includegraphics[width=1\linewidth]{Create.png}
+        \includegraphics[width=1\linewidth]{create.png}
     \end{figure}
 
-    \begin{lstlisting}[language=SQL]
-INSERT INTO tbl_toy_name
-            (NAME)
-VALUES      ("bear"),
-            ("bee"),
-            ("rabbit"),
-            ("mouse"),
-            ("cat");
-
-INSERT INTO tbl_toy_type
-            (color,
-             material)
-VALUES      ("green",
-             "cotton"),
-            ("red",
-             "wood"),
-            ("white",
-             "glass"),
-            ("green",
-             "glass"),
-            ("red",
-             "cotton");
-
-INSERT INTO tbl_suppliers
-            (NAME,
-             contacts)
-VALUES      ("gregory",
-             "vault street, 13, 89"),
-            ("hyperion",
-             "+380998884433"),
-            ("atlas",
-             "+380991211122"),
-            ("cov",
-             "+380991198301"),
-            ("rozetka",
-             "+380990003322");  
-    \end{lstlisting}
-
     \begin{figure}[!h]
-        \includegraphics[width=1\linewidth]{Insert.png}
-    \end{figure}
-
-    \begin{lstlisting}[language=SQL]
-INSERT INTO tbl_price
-VALUES      (1,
-             1,
-             2,
-             100.20 ),
-            (1,
-             2,
-             2,
-             150.50 ),
-            (3,
-             3,
-             1,
-             999.99 ),
-            (4,
-             5,
-             4,
-             220.20 ),
-            (5,
-             1,
-             3,
-             230.30 ),
-            (5,
-             3,
-             5,
-             250.10 );
-    \end{lstlisting}
-
-    \begin{figure}[!h]
-        \includegraphics[width=1\linewidth]{InsertP.png}
-    \end{figure}
-
-    \begin{lstlisting}[language=SQL]
-        SELECT * FROM tbl_price;
-    \end{lstlisting}
-
-    \begin{figure}[!h]
-        \includegraphics[width=1\linewidth]{SelectPrice.png}
-    \end{figure}
-
-    \begin{lstlisting}[language=SQL]
-        SELECT * FROM tbl_suppliers;
-    \end{lstlisting}
-
-    \begin{figure}[!h]
-        \includegraphics[width=1\linewidth]{SelectSuppliers.png}
+        \includegraphics[width=1\linewidth]{relation.png}
     \end{figure}
 
     \newpage
+    \begin{lstlisting}[language=sql]
+INSERT INTO tbl_plant
+            (NAME)
+VALUES      ('Фікус Каріка'),
+            ('Аденіум огрядний'),
+            ('Аглаонема'),
+            ('Азалія'),
+            ('Сансевієрія'),
+            ('Орхідея Фаленопсис'),
+            ('Пеларгонія'),
+            ('Монстера'),
+            ('Бегонія'),
+            ('Каланхоє');
 
-    \begin{lstlisting}[language=SQL]
-        SELECT * FROM tbl_toy_name;
+INSERT INTO tbl_feature
+            (feature)
+VALUES      ('Садові'),
+            ('Закритого ґрунту'),
+            ('Кімнатні'),
+            ('Суцвіття'),
+            ('Листяні'),
+            ('Тропічні'),
+            ('Флора кімнатна'),
+            ('Вологолюбні'),
+            ('Ароматні'),
+            ('Квітучі');
+
+INSERT INTO tbl_plant_feature
+            (plant_id,
+             feature_id)
+VALUES      (1,
+             1),
+            (1,
+             2), -- Фікус Каріка
+            (2,
+             3), -- Аденіум огрядний
+            (3,
+             3), -- Аглаонема
+            (4,
+             1), -- Азалія
+            (5,
+             3),
+            (5,
+             5), -- Сансевієрія
+            (6,
+             3),
+            (6,
+             10), -- Орхідея Фаленопсис
+            (7,
+             3),
+            (7,
+             9), -- Пеларгонія
+            (8,
+             6),
+            (8,
+             5), -- Монстера
+            (9,
+             3),
+            (9,
+             10), -- Бегонія
+            (10,
+             3),
+            (10,
+             8); -- Каланхоє
+INSERT INTO tbl_storage
+            (NAME)
+VALUES      ('№1'),
+            ('№2'),
+            ('№3'),
+            ('№4'),
+            ('№5'),
+            ('№6'),
+            ('№7'),
+            ('№8'),
+            ('№9'),
+            ('№10');
+
+INSERT INTO tbl_responsible
+            (NAME)
+VALUES      ('Луцик М. В.'),
+            ('Ступак Я. К.'),
+            ('Падик В. О.'),
+            ('Іваненко О. П.'),
+            ('Ковальчук С. А.'),
+            ('Мельник Т. В.'),
+            ('Бондаренко Л. М.'),
+            ('Сидоренко Н. І.'),
+            ('Гончарук В. Ю.'),
+            ('Романюк Ю. В.');
+
+INSERT INTO tbl_storage_responsible
+            (storage_id,
+             responsible_id)
+VALUES      (1,
+             1), -- №1 → Луцик
+            (1,
+             2), -- №1 → Ступак
+            (2,
+             3), -- №2 → Падик
+            (3,
+             2), -- №3 → Ступак
+            (4,
+             4), -- №4 → Іваненко
+            (5,
+             5), -- №5 → Ковальчук
+            (6,
+             6), -- №6 → Мельник
+            (7,
+             7), -- №7 → Бондаренко
+            (8,
+             8), -- №8 → Сидоренко
+            (9,
+             9), -- №9 → Гончарук
+            (10,
+             10); -- №10 → Романюк
+INSERT INTO tbl_supplier
+            (NAME)
+VALUES      ('UGT'),
+            ('AVDtrade'),
+            ('КвітиУкраїни'),
+            ('Волошка'),
+            ('GreenHouse'),
+            ('FloraMix'),
+            ('BotanicShop'),
+            ('PlantWorld'),
+            ('EcoGarden'),
+            ('TropiFlowers');
+
+INSERT INTO tbl_accounting
+            (plant_id,
+             storage_responsible_id,
+             supplier_id)
+VALUES      (1,
+             1,
+             1), -- Фікус Каріка, №1→Луцик, UGT
+            (1,
+             2,
+             2), -- Фікус Каріка, №1→Ступак, AVDtrade
+            (1,
+             4,
+             2), -- Фікус Каріка, №3→Ступак, AVDtrade
+            (2,
+             3,
+             2), -- Аденіум, №2→Падик, AVDtrade
+            (3,
+             4,
+             3), -- Аглаонема, №3→Ступак, КвітиУкраїни
+            (4,
+             5,
+             4), -- Азалія, №4→Іваненко, Волошка
+            (5,
+             6,
+             5), -- Сансевієрія, №6→Мельник, GreenHouse
+            (6,
+             7,
+             6), -- Орхідея, №7→Бондаренко, FloraMix
+            (7,
+             8,
+             7), -- Пеларгонія, №8→Сидоренко, BotanicShop
+            (8,
+             9,
+             8), -- Монстера, №9→Гончарук, PlantWorld
+            (9,
+             10,
+             9); -- Бегонія, №10→Романюк, EcoGarden
     \end{lstlisting}
 
     \begin{figure}[!h]
-        \includegraphics[width=1\linewidth]{SelectName.png}
+        \includegraphics[width=1\linewidth]{insert.png}
     \end{figure}
 
-    \begin{lstlisting}[language=SQL]
-        SELECT * FROM tbl_toy_type;
+    \newpage
+    \begin{lstlisting}[language=sql]
+SELECT p.name                                          AS Рослина,
+       Group_concat(DISTINCT f.feature SEPARATOR ', ') AS Особливості,
+       Group_concat(DISTINCT s.name SEPARATOR ', ')    AS Постачальники,
+       Group_concat(DISTINCT st.name SEPARATOR ', ')   AS Склади,
+       Group_concat(DISTINCT r.name SEPARATOR ', ')    AS Відповідальні
+FROM   tbl_plant AS p
+       INNER JOIN tbl_accounting AS a
+               ON p.id = a.plant_id
+       INNER JOIN tbl_supplier AS s
+               ON a.supplier_id = s.id
+       INNER JOIN tbl_storage_responsible AS sr
+               ON a.storage_responsible_id = sr.id
+       INNER JOIN tbl_storage AS st
+               ON sr.storage_id = st.id
+       INNER JOIN tbl_responsible AS r
+               ON sr.responsible_id = r.id
+       LEFT JOIN tbl_plant_feature AS pf
+              ON p.id = pf.plant_id
+       LEFT JOIN tbl_feature AS f
+              ON pf.feature_id = f.id
+GROUP  BY p.name
+ORDER  BY p.name;  
     \end{lstlisting}
 
     \begin{figure}[!h]
-        \includegraphics[width=1\linewidth]{SelectType.png}
+        \includegraphics[width=1\linewidth]{select.png}
     \end{figure}
 
     \newpage
     \section{Висновки}
-        У ході лабораторної роботи було спроєктовано та створено базу даних "Магазин іграшок". Було розроблено структуру та побудовано всі необхідні зв’язки між таблицями.
+        Створено структуру бази даних "Магазин рослин", нормалізовану до 3НФ. Виділено основні сутності, встановлено зв’язки між ними та усунуто надлишковість даних.
 
     \newpage
-    % \section{Контрольні питання}
+    \section{Контрольні питання}
 
-    % \begin{enumerate}
-    %     \item Що таке бази даних? \eqref{fig:database}
-    %     \item Чим характерні реляційні БД? \eqref{fig:database_rel}
-    %     \item Що таке поле? \eqref{fig:field}
-    %     \item Що таке запис? \eqref{fig:record}
-    %     \item Які обмеження на параметрі сучасних реляційних БД (розмір, кількість записів, …)? \eqref{fig:database_limits}
-    %     \item Базові команди SQL? \eqref{fig:database_commands}
-    % \end{enumerate}
+    \begin{enumerate}
+        \item \textbf{Що таке нормальні форми?} \\
+        Нормальні форми — правила, які застосовують до БД, за допомогою яких відбувається оптимізація структури БД, що дозволяє зробити БД оптимальнішою, ефективнішою. 
 
-    % \begin{enumerate}
-    %     \item \begin{figure}[h!]\label{fig:database}
-    %         Сховище впорядкованих даних під керуванням СУБД.
-    %     \end{figure}
+        \item \textbf{Опишіть вимоги першої нормальної форми (1НФ).}
+        \begin{itemize}
+            \item Атомарність.
+            \item Уникнення повторень груп правильно визначаючи неключові атрибути.
+            \item Основний ключ: мінімальний набір колонок, які ідентифікують запис.
+        \end{itemize}
+        
 
-    %     \item \begin{figure}[h!]\label{fig:database_rel}
-    %         Дані у таблицях, зв’язки через ключі, робота SQL.
-    %     \end{figure}
+        \item \textbf{Опишіть вимоги другої нормальної форми (2НФ).}
+        \begin{itemize}
+            \item 1НФ.
+            \item Дані, що зберігаються в таблицях з композитним ключем, не залежать лише від частини ключа.
+            \item Дані, що повторно з'являються в декількох рядках, виносяться в окремі таблиці.
+        \end{itemize}
 
-    %     \item \begin{figure}[h!]\label{fig:field}
-    %         Стовпець таблиці.
-    %     \end{figure}
+        \item \textbf{Опишіть вимоги третьої нормальної форми (3НФ).}
+        \begin{itemize}
+            \item 2НФ.
+            \item Дані в таблиці залежали винятково від основного ключа.
+            \item Без транзитивних залежностей (немає залежності неключових атрибутів один від одного).
+        \end{itemize}
 
-    %     \item \begin{figure}[h!]\label{fig:record}
-    %         Рядок таблиці.
-    %     \end{figure}
+        \item \textbf{Продемонструйте на простому прикладі приведення БД до 3НФ.} \\
+        \textit{Приклад:}\\
+        Початкова таблиця:\\
+        \begin{tabular}{|c|c|c|}
+            \hline
+            Студент & Група & Кафедра \\
+            \hline
+            Іванов & ФІ-21 & ММАД\\
+            \hline
+            Петров & ФІ-21 & ММАД\\
+            \hline
+            Сидоренко & ФІ-23 & ММЗІ\\
+            \hline
+        \end{tabular}
+        \begin{itemize}
+            \item Тут є транзитивна залежність: \texttt{Група → Кафедра}.
+            \item Для 3НФ виділяємо окремі таблиці:  
+                \begin{itemize}
+                    \item \textbf{Студенти}(id, Ім'я, Група\_id)  
+                    \item \textbf{Групи}(id, Назва, Кафедра)  
+                \end{itemize}
+            \item Тепер кожен неключовий атрибут залежить лише від первинного ключа.
+        \end{itemize}
+    \end{enumerate}
 
-    %     \item \begin{figure}[h!]\label{fig:database_limits}
-    %         Таблиця може мати до ~4 млрд рядків, розмір БД — терабайти (MySQL).
-    %     \end{figure}
 
-    %     \item \begin{figure}[h!]\label{fig:database_commands}
-    %         CREATE, DROP, ALTER, SELECT, INSERT, UPDATE, DELETE
-    %     \end{figure}
-    % \end{enumerate}
 \end{document}
