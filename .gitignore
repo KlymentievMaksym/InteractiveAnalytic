@@ -8,5 +8,7 @@
 !*.tikz
 
 !*.pdf
+!req.txt
+!*.py
 
 !*/

@@ -39,6 +39,11 @@
 
     \newpage
     \section{Завдання}
+
+    \begin{figure}[!h]
+        \includegraphics[width=1\linewidth]{LogFormat.jpg}
+    \end{figure}
+
     Ґакери намагаються зламати ваш сайт і зіпсувати бузу даних.
     Треба знайти записи, з нестандартними діями, ідентифікувати IP адреси комп’ютерів з яких відбувається атака і передати ці записи до кіберполіції.
     Можна створювати додаткові таблиці.\\
@@ -82,47 +87,171 @@
     \newpage
     \section{Код реалізації}
 
+    \begin{figure}[!h]
+        \includegraphics[width=1\linewidth]{Import.png}
+    \end{figure}
+
+    \begin{figure}[!h]
+        \includegraphics[width=1\linewidth]{ImportSuccess.png}
+    \end{figure}
+
+    \newpage
+    1. Вивести повні адреси JS скриптів (розширення js) і їх розмір, які запросили з ком’пютера з IP адресою 83.227.29.211, для яких запит завершився вдало.
     \begin{lstlisting}[language=sql]
+SELECT
+	Script,
+    Size
+FROM (SELECT
+        SUBSTRING_INDEX(Line, ' ', 1) as IP,
+        SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(Line, '"', 2), '"', -1), ' ', 2), ' ', -1) as Script,
+        SUBSTRING_INDEX(SUBSTRING_INDEX(Line, ' "', 2), ' ', -1) as Size,
+        SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(Line, ' "', 2), ' ', -2), ' ', 1) as Status
+    FROM `tblaccesslog`) as first_task
+WHERE first_task.IP = '83.227.29.211'
+	AND first_task.Status REGEXP '^2'
+    AND first_task.Script REGEXP '\\.js(\\?.*)?$';
     \end{lstlisting}
 
-    % \begin{figure}[!h]
-    %     \includegraphics[width=1\linewidth]{create.png}
-    % \end{figure}
+    \begin{figure}[!h]
+        \includegraphics[width=1\linewidth]{First.png}
+    \end{figure}
 
-    % \begin{figure}[!h]
-    %     \includegraphics[width=1\linewidth]{relation.png}
-    % \end{figure}
+
+    \newpage
+    2. Придумайте будь який запит з використанням UNION, в дослідити різні форми цієї команди.
+    \begin{lstlisting}[language=sql]
+(SELECT
+	IP,
+    Size
+FROM (SELECT
+        SUBSTRING_INDEX(Line, ' ', 1) as IP,
+        SUBSTRING_INDEX(SUBSTRING_INDEX(Line, ' "', 2), ' ', -1) as Size,
+      	SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(Line, ' "', 2), ' ', -2), ' ', 1) as Status
+    FROM `tblaccesslog`) as second_task
+WHERE second_task.IP REGEXP '173.255.176.5|83.169.39.166'
+	AND second_task.Size = 0
+    AND second_task.Status REGEXP '^2')
+UNION
+(SELECT
+	IP,
+    Size
+FROM (SELECT
+        SUBSTRING_INDEX(Line, ' ', 1) as IP,
+        SUBSTRING_INDEX(SUBSTRING_INDEX(Line, ' "', 2), ' ', -1) as Size,
+      	SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(Line, ' "', 2), ' ', -2), ' ', 1) as Status
+    FROM `tblaccesslog`) as second_task
+WHERE second_task.IP REGEXP '83.227.29.211'
+	AND second_task.Size < 200
+    AND second_task.Status REGEXP '^2');
+    \end{lstlisting}
+
+    \begin{figure}[!h]
+        \includegraphics[width=0.25\linewidth]{Second1.png}
+    \end{figure}
 
     \newpage
     \begin{lstlisting}[language=sql]
+(SELECT
+	IP,
+    Size
+FROM (SELECT
+        SUBSTRING_INDEX(Line, ' ', 1) as IP,
+        SUBSTRING_INDEX(SUBSTRING_INDEX(Line, ' "', 2), ' ', -1) as Size,
+      	SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(Line, ' "', 2), ' ', -2), ' ', 1) as Status
+    FROM `tblaccesslog`) as second_task
+WHERE second_task.IP REGEXP '173.255.176.5|83.169.39.166'
+	AND second_task.Size = 0
+    AND second_task.Status REGEXP '^2')
+UNION ALL
+(SELECT
+	IP,
+    Size
+FROM (SELECT
+        SUBSTRING_INDEX(Line, ' ', 1) as IP,
+        SUBSTRING_INDEX(SUBSTRING_INDEX(Line, ' "', 2), ' ', -1) as Size,
+      	SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(Line, ' "', 2), ' ', -2), ' ', 1) as Status
+    FROM `tblaccesslog`) as second_task
+WHERE second_task.IP REGEXP '83.227.29.211'
+	AND second_task.Size < 200
+    AND second_task.Status REGEXP '^2');
     \end{lstlisting}
 
-    % \begin{figure}[!h]
-    %     \includegraphics[width=1\linewidth]{insert.png}
-    % \end{figure}
+    \begin{figure}[!h]
+        \includegraphics[width=0.25\linewidth]{Second2.png}
+    \end{figure}
 
     \newpage
+    3. Знайдіть розмір всього скачаного комп'ютером з IP адресою  83.227.29.211
     \begin{lstlisting}[language=sql]
+SELECT
+	IP,
+    sum(Size) as Total
+FROM (SELECT
+        SUBSTRING_INDEX(Line, ' ', 1) as IP,
+        SUBSTRING_INDEX(SUBSTRING_INDEX(Line, ' "', 2), ' ', -1) as Size
+    FROM `tblaccesslog`) as third_task
+WHERE third_task.IP = '83.227.29.211'
+GROUP BY third_task.IP;
     \end{lstlisting}
 
-    % \begin{figure}[!h]
-    %     \includegraphics[width=1\linewidth]{select.png}
-    % \end{figure}
+    \begin{figure}[!h]
+        \includegraphics[width=0.5\linewidth]{Third.png}
+    \end{figure}
 
     \newpage
     \section{Висновки}
-        Знайдено записи, з нестандартними діями, ідентифікувано IP адреси комп’ютерів з яких відбулась атака і передано ці записи до кіберполіції.
+        Набуто навички роботи з RegExp у SQL-запитах.
 
     \newpage
     \section{Контрольні питання}
 
     \begin{enumerate}
-        \item \textbf{Що таке запити розширеного SQL (advanced SQL)?}
-        \item \textbf{Що таке регулярні вирази?}
-        \item \textbf{Для чого використовуються запити з командою UNION?}
-        \item \textbf{Що таке агрегатні функції?}
-        \item \textbf{Для чого використовуються запити з командою ORDER?}
-        \item \textbf{Для чого використовуються запити з командою HAVING?}
+        \item \textbf{Що таке запити розширеного SQL (advanced SQL)?} \\
+            Розширені SQL-запити — це запити, які використовують підзапити, об’єднання, агрегації та умови.
+
+        \item \textbf{Що таке регулярні вирази?} \\
+            Регулярні вирази --- це спеціальна мова шаблонів для пошуку або перевірки текстових даних. \\
+            Приклад: 
+            \begin{lstlisting}[language=sql]
+SELECT * FROM logs WHERE Line REGEXP '\\.js$';
+            \end{lstlisting}
+            Знайде всі рядки, що закінчуються на \texttt{.js}.
+
+        \item \textbf{Для чого використовуються запити з командою UNION?} \\
+            Команда \texttt{UNION} об'єднання результатів двох селектів виключаючи повторні рядки, тоді як \texttt{UNION ALL} залишає всі записи. 
+            \begin{lstlisting}[language=sql]
+SELECT name FROM students
+UNION
+SELECT name FROM teachers;
+            \end{lstlisting}
+            Поверне список усіх імен без повторів.
+
+        \item \textbf{Що таке агрегатні функції?} \\
+            Агрегатні функції --- це функція, які повертають одинарне значення з колекції вхідних значень такої як множина.
+            До них належать:
+            \begin{itemize}
+                \item \texttt{COUNT()} --- кількість рядків;
+                \item \texttt{SUM()} --- сума значень;
+                \item \texttt{AVG()} --- середнє значення;
+                \item \texttt{MIN()}, \texttt{MAX()} --- мінімальне та максимальне значення.
+            \end{itemize}
+
+        \item \textbf{Для чого використовуються запити з командою ORDER?} \\
+            Команда \texttt{ORDER BY} використовується для впорядкування (сортування) набору результатів у порядку зростання або спадання.\\
+            Наприклад, якщо потрібно продивитись юзерів за спаданням їх віку.
+            \begin{lstlisting}[language=sql]
+SELECT name, age FROM users ORDER BY age DESC;
+            \end{lstlisting}
+
+        \item \textbf{Для чого використовуються запити з командою HAVING?} \\
+            Команда \texttt{HAVING} використовується якщо треба накласти умову на результат агрегатної функції.
+            \begin{lstlisting}[language=sql]
+SELECT department, COUNT(*) AS workers
+FROM employees
+GROUP BY department
+HAVING workers > 10;
+            \end{lstlisting}
+            Повертає лише ті відділи, де кількість працівників більша за 10.
     \end{enumerate}
 
 
