@@ -1,6 +1,7 @@
 import os
 import streamlit as st
 import pandas as pd
+import time
 from database import DatabaseManager
 from parser import LogParser
 from analyzer import LogAnalyzer
@@ -17,6 +18,7 @@ path_to_db = path_to_data + "logs.db"
 db = DatabaseManager(path_to_db)
 analyzer = LogAnalyzer(db)
 parser = LogParser()
+visualizer = Visualizer(st)
 ipinfo_client = IPInfo()
 
 st.set_page_config(page_title="Лог-Аналізатор", page_icon="📊", layout="wide")
@@ -43,10 +45,12 @@ def read_and_parse_load():
 
 if st.button("Recreate data"):
     if "df_parsed" in st.session_state: del st.session_state.df_parsed
-    if os.path.exists(path_to_db): db.delete()
+    db.delete()
 
+t1 = time.time()
 if os.path.exists(path_to_db) and os.path.getsize(path_to_db) > 0: df_parsed = read_and_parse_load()
 else: df_parsed = read_and_parse_create(path_to_log)
+print(f"[ ] Done for: {(time.time()-t1):.4f} sec")
 df_parsed = df_parsed.astype({
     'size': 'int',
     'status': 'int',
@@ -65,32 +69,16 @@ st.write(f"SQL: {sql_t:.4f} сек | Python: {py_t:.4f} сек")
 
 col1, col2 = st.columns(2)
 with col1:
+    st.markdown("### Using Database")
     st.dataframe(db_stats)
 with col2:
+    st.markdown("### Using Python")
     st.dataframe(py_stats)
 
-# col1, col2 = st.columns(2)
-# with col1:
-#     st.bar_chart(stats)
-#     print(stats)
-# with col2:
-#     st.bar_chart(py_stats)
-#     print(py_stats)
-
-# col1, col2 = st.columns(2)
-# with col1:    
-#     fig = Visualizer.show_chart(stats)
-#     # st.pyplot(fig)
-#     st.plotly_chart(fig)
-# with col2:
-#     fig = Visualizer.show_chart(py_stats)
-#     # st.pyplot(fig)
-#     st.plotly_chart(fig)
-
-# st.plotly_chart(fig)
-# Visualizer.save_chart(fig)
-
+stats = py_stats / py_stats.sum()
+fig = visualizer.show_chart(stats.reset_index())
+visualizer.save_chart(fig)
 
 ip_data = ipinfo_client.get_info(selected_ip)
-st.subheader("🌍 Інформація про IP:")
+st.subheader(f"🌍 Інформація про IP: {selected_ip}")
 st.json(ip_data)

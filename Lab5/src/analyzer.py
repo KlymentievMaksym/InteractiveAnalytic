@@ -1,8 +1,10 @@
 import pandas as pd
 import time
 
+from database import DatabaseManager
+
 class LogAnalyzer:
-    def __init__(self, db):
+    def __init__(self, db: DatabaseManager):
         self.db = db
 
     def analyze_by_ip(self, ip: str, limit: int = 3) -> pd.DataFrame:
@@ -12,8 +14,6 @@ class LogAnalyzer:
         WHERE ip = '{ip}'
         GROUP BY status
         """
-        # ORDER BY total_size DESC
-        # LIMIT {limit}
         return self.db.query(query)
 
     def compare_performance(self, df_parsed: pd.DataFrame, ip: str):
@@ -23,7 +23,6 @@ class LogAnalyzer:
 
         t2 = time.time()
         py_stats = df_parsed[df_parsed["ip"] == ip].groupby("status")["size"].sum()
-        py_stats.columns = ["status", "total_size"]
         py_time = time.time() - t2
 
         return sql_time, py_time, db_stats, py_stats

@@ -1,14 +1,26 @@
 import plotly.express as px
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
+
+from io import BytesIO
 
 class Visualizer:
-    @staticmethod
-    def show_chart(df):
-        # plt.bar(df)
-        # fig = plt.figure()
-        fig = px.bar(df, x="code", y="total_size", title="Розподіл скачаного за кодами")
+    def __init__(self, st):
+        self.st = st
+
+    def show_chart(self, dataframe):
+        fig = px.bar(dataframe, x="status", y="size", title="Розподіл скачаного за кодами")
+        fig.update_layout(xaxis=dict(type="category"))
+        self.st.plotly_chart(fig)
         return fig
 
-    @staticmethod
-    def save_chart(fig, filename="chart.png"):
-        fig.write_image(filename)
+    def save_chart(self, fig, filename="chart.png"):
+        buf = BytesIO()
+        fig.write_image(buf, format="png")
+        buf.seek(0)
+
+        self.st.download_button(
+            label="⬇️ Download chart as PNG",
+            data=buf,
+            file_name=filename,
+            mime="image/png"
+        )
