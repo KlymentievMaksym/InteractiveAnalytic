@@ -1,0 +1,162 @@
+\documentclass{article}
+
+\input{../../packages.tex}
+
+\graphicspath{ {../Images/} }
+\begin{document}
+    \begin{titlepage}
+        \begin{center}
+
+        Міністерство освіти і науки України
+        
+        НТУУ «Київський політехнічний інститут»
+        
+        Фізико-технічний інститут
+        \vspace{3.3cm}
+        
+        {\textbf{Системи та засоби інтерактивної аналітики}\\Лабораторна робота No6\\Ознайомлення з пакетом Tableau\\Варіант No6}
+
+        \vspace{8.5cm}
+
+        \begin{flushright}
+            \textbf{Виконав:}\\Студент 4-го курсу\\групи ФІ-21\\Климентьєв Максим\\
+            \textbf{Перевірив:}\\\text{\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_}
+        \end{flushright}
+
+        \end{center}
+    \end{titlepage}
+    \newpage
+
+    \pagenumbering{gobble}
+    \tableofcontents
+    \cleardoublepage
+    \pagenumbering{arabic}
+    \setcounter{page}{3}
+
+    \newpage
+    \section{Мета роботи}
+        Ознайомлення з пакетом Tableau.
+
+    \newpage
+    \section{Завдання}
+
+    \begin{enumerate}
+        \item \underline{\textbf{Імпорт інформації.}}\\
+            Файл завантажити у БД, якщо Ваш комп'ютер повільний, можна з файла взяти меньший об'єм інформації.\\
+            \textbf{На 14 або 15 балів} файл імпортувати у базу як є, кожен рядок -> один запис у базі (ID, TEXT), потім SQL запитом з регекспами перетворит таблицю на таблицю з записами де кожне поле логфайла відповідає полю у таблиці (ID, IP, DATA, URL, RETCODE, SIZE, ….).
+            Потім створити SQL запит, яким порахувати вказане у п2. І програмно виміряти час, за який виконаються пп 2-3.
+            Потім зробити аналогічні дії без використання БД, програмно виміряти час, за який виконаються пп 1-2 і порівняти ресурсоємність двох підходів.\\
+            \textbf{На 0-13 балів} зробити пункт 2 будь-яким способом, без поріаняння ресурсоємності.
+
+        \item \underline{\textbf{Аналіз даних.}}\\
+            Знайти розміри скачаних даних за кожним кодом стану (всі, не тільки 2хх), які були скачані з певної IP адреси, адреси для кожного варіанту наведені у Табл. 5.1.
+        \item \underline{\textbf{Візуалізація.}}\\
+            Вивести діаграму розподілу скачаного для перших 3х кодів (з попереднього пункта) і зберегти її у файл (програмно). 
+        \item Вивести всю можливу інформацію про IP адресу (країна, місто, провайдер і т.д.).
+        \item \underline{Постаратися все зробити у одній програмі. IP - задати змінною для того щоб можна було оперативно формувати запити для інших адрес.}
+
+        \item Створити звіт. Приєднати до класу. \begin{itemize}
+            \item У звіті навести все необхідне для повторення і перевірки ваших дій (діаграму БД, SQL запити для створення БД і таблиць, структуру БД, і т.д). Навести знімки екрана, які підтверджують виконані дії.
+            \item У протоколі SQL запити наводити у текстовому вигляді щоб їх можна було редагувати і модифікувати під час захисту.
+            \item Зробити висновки по роботі і занести їх у звіт.
+        \end{itemize}
+
+        \item Підготувати відповіді на контрольні питання (для офлайн захисту навести їх у протоколі, розкрити сутність, навести приклади).
+
+        \item Захистити роботу.
+
+    \end{enumerate}
+
+    Можна використовувати будь яку мову програмування, “картинку” треба згенерувати “статично”, без використання online бібліотек на зразок Chart.js, Google Charts або Chartist, але можна їх використати додатково.
+
+
+    \begin{table}[!h]
+        \centering
+        \begin{tabular}{| c | m{32em} |} 
+            \hline
+            № варіанта & Завдання \\ [0.5ex] 
+            \hline
+            6 & \colorbox{LightGreen}{46.125.249.79}\\
+            \hline
+        \end{tabular}
+    \end{table}
+
+    \begin{table}[!h]
+        \centering
+        \begin{tabular}{| c | m{32em} |} 
+            \hline
+            № варіанта & Завдання \\ [0.5ex] 
+            \hline
+            6 & 
+                \textbf{Запити:}\newline
+                1. Вивести повні адреси JS скриптів (розширення js) і їх розмір, які запросили з ком’пютера з IP адресою 83.227.29.211, для яких запит завершився вдало.\newline
+                2. Придумайте будь який запит з використанням UNION, в дослідити різні форми цієї команди.\newline
+                3. Знайдіть розмір всього скачаного комп'ютером з IP адресою  83.227.29.211\\
+            \hline
+        \end{tabular}
+    \end{table}
+
+    \newpage
+    \section{Код реалізації}
+\begin{lstlisting}[language=sql]   
+Ip
+REGEXP_EXTRACT([Line], "^([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)")
+
+ident
+REGEXP_EXTRACT([Line], "^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+ (\S+)")
+
+user
+REGEXP_EXTRACT([Line], "^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+ \S+ (\S+)")
+
+time
+REGEXP_EXTRACT([Line], "\[([^\]]+)\]")
+
+request
+REGEXP_EXTRACT([Line], '"([A-Z]+ [^ ]+ HTTP/\S+)"')
+
+file
+REGEXP_EXTRACT([request], ' (\S+) ')
+
+status
+REGEXP_EXTRACT([Line], '" ([0-9]+) ')
+
+size
+REGEXP_EXTRACT([Line], '" [0-9]+ ([0-9]+|-)')
+
+referer
+REGEXP_EXTRACT([Line], '" [^ ]+ [^ ]+ "([^\"]*)"')
+
+user_agent
+REGEXP_EXTRACT([Line], '" [^ ]+ [^ ]+ "[^"]*" "([^"]*)"')
+
+host
+REGEXP_EXTRACT([Line], '"([^"]*)"$')
+    \end{lstlisting}
+
+    \begin{lstlisting}
+LOG(SUM([size]))
+    \end{lstlisting}
+
+    \newpage
+    \begin{figure}[ht]
+        % \centering
+        \includegraphics[width=1\linewidth]{../task41.png}
+    \end{figure}
+
+    \newpage
+    \begin{figure}[ht]
+        % \centering
+        \includegraphics[width=0.5\linewidth]{../task42.png}
+    \end{figure}
+
+    \newpage
+    \begin{figure}[ht]
+        % \centering
+        \includegraphics[width=0.7\linewidth]{../task5.png}
+    \end{figure}
+
+
+    \newpage
+    \section{Висновки}
+
+\end{document}
